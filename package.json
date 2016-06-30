@@ -1,0 +1,19 @@
+{
+  "name": "comment-anchors",
+  "main": "./lib/comment-anchors",
+  "version": "0.0.0",
+  "description": "A short description of your package",
+  "keywords": [
+  ],
+  "activationCommands": {
+    "atom-workspace": "comment-anchors:toggle"
+  },
+  "repository": "https://github.com/atom/comment-anchors",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+    "atom-space-pen-views": ">2.0.0"
+  }
+}
