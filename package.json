@@ -2,13 +2,13 @@
   "name": "comment-anchors",
   "main": "./lib/comment-anchors",
   "version": "0.0.0",
-  "description": "A short description of your package",
+  "description": "Anchor your comments! A package to easily navigate your code in Atom.",
   "keywords": [
   ],
   "activationCommands": {
     "atom-workspace": "comment-anchors:toggle"
   },
-  "repository": "https://github.com/atom/comment-anchors",
+  "repository": "https://github.com/callodacity/comment-anchors",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
