@@ -14,8 +14,8 @@ class MySelectListView extends SelectListView
   initialize: ->
     super
     @addClass('overlay from-top')
-
     @setItems(@getItems())
+    @previousPositions = [];
 
     @panel ?= atom.workspace.addModalPanel(item: this)
     @panel.hide()
@@ -39,6 +39,7 @@ class MySelectListView extends SelectListView
     @panel.hide();
 
     editor = atom.workspace.getActiveTextEditor()
+    @getPreviousPosition(editor)
     position = new Point(anchor.line, 1)
 
     editor.setCursorBufferPosition(position)
@@ -89,6 +90,17 @@ class MySelectListView extends SelectListView
 
     return anchors
 
+  # used to find old line information in order to jump back to spot
+  getPreviousPosition: (editor) ->
+    prevPosition = editor.getCursorBufferPosition()
+    @previousPositions.push(prevPosition)
+  returnToPreviousPosition: ->
+    editor = atom.workspace.getActiveTextEditor()
+    if @previousPositions.length
+      position = @previousPositions.pop()
+      console.log position
+      editor.setCursorBufferPosition(position)
+      editor.scrollToBufferPosition(position, center: true)
 
   # used to restore focus to the active text editor after jumping to specific line
   storeFocusedElement: ->
@@ -111,3 +123,6 @@ class MySelectListView extends SelectListView
   cancelled: ->
     if @panel.isVisible()
       @panel.hide()
+
+
+#### this is the end of the file

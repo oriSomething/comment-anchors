@@ -17,6 +17,8 @@ module.exports = CommentAnchors =
 
     # Register command that toggles this view
     @subscriptions.add atom.commands.add 'atom-workspace', 'comment-anchors:toggle': => @commentAnchorsView.toggle()
+    # Register command that returns to previous position
+    @subscriptions.add atom.commands.add 'atom-workspace', 'comment-anchors:return': => @commentAnchorsView.returnToPreviousPosition()
 
   #### deactivate
   deactivate: ->
