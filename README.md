@@ -45,20 +45,31 @@ Just press `cmd-shift-a` / `ctrl-shift-a` and you can toggle comment-anchors any
 
 ### Supported grammars and comments
 
-* javascript, js (rails), js (babel)
-* coffeescript
-* obj-c, obj-c++
-* c, c++, c#
-* shell script
-* ruby, ruby (rjs)
-* python
-* perl
-* yaml
-* html
-* xml
-* php
-* css, sass, less, scss
-* go
+* forward slash style comments `//` are anchored by `//// title`
+  * javascript, js (rails), js (babel)
+  * obj-c, obj-c++
+  * c, c++, c#
+* hash style comments `#` are anchored by `#### title`
+  * coffeescript
+  * shell script
+  * ruby, ruby (rjs)
+  * python
+  * yaml
+  * perl
+* html style comments `<!-- -->` are anchored by `<!---- title ---->`
+  * html
+  * xml
+* css style comments `/* */` are anchored by `/**** title ****/`
+  * css
+  * sass
+  * less
+  * scss
+  * go
+* other grammars that support multiple comments are anchored by the comment type they support.
+  * i.e. php is anchored by:
+    * `//// title`
+    * `#### title`
+    * `/**** title ****/`
 
 ### Roadmap
 
