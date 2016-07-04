@@ -1,9 +1,16 @@
 {
   "name": "comment-anchors",
   "main": "./lib/comment-anchors",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Anchor your comments! A package to easily navigate your code in Atom.",
-  "keywords": ["atom", "comments", "jump", "navigate", "anchor", "long code"],
+  "keywords": [
+    "atom",
+    "comments",
+    "jump",
+    "navigate",
+    "anchor",
+    "long code"
+  ],
   "activationCommands": {
     "atom-workspace": "comment-anchors:toggle"
   },
