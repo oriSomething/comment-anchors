@@ -37,10 +37,10 @@ else
 
 ### Demo
 
-Just press `cmd-shift-a` and you can toggle comment-anchors anywhere!
+Just press `cmd-shift-a` / `ctrl-shift-a` and you can toggle comment-anchors anywhere!
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/callodacity/comment-anchors/master/demo/demo.gif" />
+  <img src="http://i.imgur.com/IpnIMl9.gif" />
 </p>
 
 ### Supported grammars and comments
@@ -57,7 +57,7 @@ Just press `cmd-shift-a` and you can toggle comment-anchors anywhere!
 * html
 * xml
 * php
-* css, sass, less, scss 
+* css, sass, less, scss
 * go
 
 ### Roadmap
