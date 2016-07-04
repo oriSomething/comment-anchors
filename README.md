@@ -35,6 +35,10 @@ else
 
 ```
 
+### Other features
+
+Comment Anchors also remembers your previous position. So if you jumped to an anchor, just bring up the command palette and call `comment-anchors:return` and you'll jump right back to where you came from.
+
 ### Demo
 
 Just press `cmd-shift-a` / `ctrl-shift-a` and you can toggle comment-anchors anywhere!
@@ -42,10 +46,6 @@ Just press `cmd-shift-a` / `ctrl-shift-a` and you can toggle comment-anchors any
 <p align="center">
   <img src="http://i.imgur.com/IpnIMl9.gif" />
 </p>
-
-### Other features
-
-Comment Anchors also remembers your previous position. So if you jumped to an anchor, just bring up the command palette and call `comment-anchors:return` and you'll jump right back to where you came from. 
 
 ### Supported grammars and comments
 
