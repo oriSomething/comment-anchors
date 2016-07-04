@@ -12,7 +12,7 @@ What if your file were over 1,000 lines long, and you only wanted to see a speci
 **Comment Anchors** is your answer! Define any anchor you want, and comment-anchors
 will find them and you can easily jump to them from anywhere in your code!
 
-Default behaviour is to match `////` but you can set your anchors as anything you want!
+Default behaviour is to match `////` but you can set your anchors as anything you want.
 
 ```js
 
@@ -28,7 +28,7 @@ let VeryImportantFunction = function() {...};
 ...
 
 //// AnotherImportantPlaceInMyCode            <--- this too!
-if (!!~null)
+if (someCondition)
   VeryImportantFunction(false);
 else
   VeryImportantFunction(true);
@@ -45,30 +45,32 @@ Just press `cmd-shift-a` / `ctrl-shift-a` and you can toggle comment-anchors any
 
 ### Supported grammars and comments
 
-* forward slash style comments `//` are anchored by `//// title`
-  * javascript, js (rails), js (babel)
-  * obj-c, obj-c++
-  * c, c++, c#
-* hash style comments `#` are anchored by `#### title`
-  * coffeescript
-  * shell script
-  * ruby, ruby (rjs)
-  * python
-  * yaml
-  * perl
-* html style comments `<!-- -->` are anchored by `<!---- title ---->`
-  * html
-  * xml
-* css style comments `/* */` are anchored by `/**** title ****/`
-  * css
-  * sass
-  * less
-  * scss
-  * go
+In essence, you will define your anchors by repeating your comment token 4 times, examples below:
+
+* Forward slash style comments `//` are anchored by `//// title`
+  * JavaScript, js (rails), js (babel)
+  * Obj-C, Obj-C++
+  * C, C++, C#
+* Hash style comments `#` are anchored by `#### title`
+  * CoffeeScript
+  * Shell Script
+  * Ruby, Ruby on Rails (rjs)
+  * Python
+  * YAML
+  * Perl
+* HTML style comments `<!-- -->` are anchored by `<!---- title ---->`
+  * HTML
+  * XML
+* CSS style comments `/* */` are anchored by `/**** title ****/`
+  * CSS
+  * SASS
+  * LESS
+  * SCSS
+  * Go
 * other grammars that support multiple comments are anchored by the comment type they support.
-  * i.e. php is anchored by:
-    * `//// title`
-    * `#### title`
+  * i.e. PHP is anchored by:
+    * `//// title` or
+    * `#### title` or
     * `/**** title ****/`
 
 ### Roadmap
