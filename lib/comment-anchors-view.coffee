@@ -44,8 +44,7 @@ class MySelectListView extends SelectListView
     editor.scrollToBufferPosition(position, center: true)
     @restoreFocus()
 
-# //// hello
-#
+  # get anchor regex
   getRegex: (grammar) ->
     # check if user has specified a RegExp to use
     override = atom.config.get('comment-anchors.alwaysUseSpecifiedRegExp')
