@@ -14,12 +14,14 @@ class MySelectListView extends SelectListView
   initialize: ->
     super
     @addClass('overlay from-top')
-    @setError('No anchors found in file.')
 
     @setItems(@getItems())
 
     @panel ?= atom.workspace.addModalPanel(item: this)
     @panel.hide()
+
+  getEmptyMessage: ->
+    "No anchors found in file --> searching for #{@getRegex().toString().slice(1, -1)}"
 
   getFilterKey: ->
     'text'

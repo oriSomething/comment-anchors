@@ -1,7 +1,7 @@
 CommentAnchorsView = require './comment-anchors-view'
 {CompositeDisposable} = require 'atom'
 
-
+CommentRegExpList = require './comment-list.coffee'
 
 module.exports = CommentAnchors =
   commentAnchorsView: null
@@ -28,6 +28,7 @@ module.exports = CommentAnchors =
   serialize: ->
     commentAnchorsViewState: @commentAnchorsView.serialize()
 
+  #### package configuration
   config:
     alwaysUseSpecifiedRegExp:
       title: 'Always use custom RegExp match for Anchors'
@@ -44,4 +45,4 @@ module.exports = CommentAnchors =
         <br/>**"\\/{4}"** matches "/" 4 times.
         <br/>**"(.+)"** captures any text until the end of the line (the anchor title).'
       type: 'string'
-      default: '^\\s*\\/{4}(.+)'
+      default: CommentRegExpList.list.javascript.toString().slice(1, -1)
