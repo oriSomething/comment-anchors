@@ -5,7 +5,7 @@
 # goes to one line after selected...
 # add more languages...
 # add better error handling...
-# publish...
+# add config for custom anchors
 
 CommentRegExpList = require './comment-list.coffee'
 
@@ -14,7 +14,7 @@ class MySelectListView extends SelectListView
   initialize: ->
     super
     @addClass('overlay from-top')
-    @setError('No anchors found.')
+    @setError('No anchors found in file.')
 
     @setItems(@getItems())
 
@@ -24,38 +24,59 @@ class MySelectListView extends SelectListView
   getFilterKey: ->
     'text'
 
-  viewForItem: (item) ->
+  viewForItem: (anchor) ->
     "<li>
-      #{item.text}
+      #{anchor.text}
       <div class='pull-right'>
-          <kbd class='key-binding pull-right'>line: #{item.line}</kbd>
+          <kbd class='key-binding pull-right'>line: #{anchor.line}</kbd>
       </div>
     </li>"
 
-  confirmed: (item) ->
-    console.log("#{item.text} was selected")
+  # User selected anchor
+  confirmed: (anchor) ->
     @panel.hide();
 
     editor = atom.workspace.getActiveTextEditor()
-    position = new Point(item.line, 1)
+    position = new Point(anchor.line, 1)
 
     editor.setCursorBufferPosition(position)
     editor.moveToFirstCharacterOfLine()
     editor.scrollToBufferPosition(position, center: true)
     @restoreFocus()
 
-  cancelled: ->
-    console.log("This view was cancelled")
-    if @panel.isVisible()
-      @panel.hide()
+# //// hello
+#
+  getRegex: (grammar) ->
+    # check if user has specified a RegExp to use
+    override = atom.config.get('comment-anchors.alwaysUseSpecifiedRegExp')
+    # if user has set a custom RegExp, or no RegExp found in our list
+    if override or not CommentRegExpList.list[grammar]
+      custom = atom.config.get('comment-anchors.customAnchorMatch')
+      # get user's custom RegExp
+      try
+        regex = new RegExp(custom)
+      # if custom regex is invalid
+      catch error
+        if error instanceof SyntaxError
+          console.error('[COMMENT-ANCHORS]:: Check your custom regex!')
+          console.error(error)
+        else
+          console.error(error)
+        # default to JavaScript if error
+        regex = CommentRegExpList.list.javascript
+    else
+      regex = CommentRegExpList.list[grammar]
 
+    return regex
+
+  # scans lines of active text editor for anchored comments
   getItems: ->
     editor = atom.workspace.getActiveTextEditor()
     grammar = editor.getGrammar().name.toLowerCase()
     lines = editor.getLineCount()
     anchors = []
 
-    regex = CommentRegExpList.list[grammar] ? CommentRegExpList.list.javascript
+    regex = @getRegex(grammar)
 
     while lines -= 1
       line = editor.lineTextForBufferRow(lines)
@@ -67,20 +88,25 @@ class MySelectListView extends SelectListView
 
     return anchors
 
+
+  # used to restore focus to the active text editor after jumping to specific line
   storeFocusedElement: ->
     @previouslyFocusedElement = $(':focus')
-
   restoreFocus: ->
     if @previouslyFocusedElement?.isOnDom()
       @previouslyFocusedElement.focus()
     else
       atom.views.getView(atom.workspace).focus()
 
+  # toggles the SelectListView
   toggle: ->
-
     if @panel.isVisible()
       @panel.hide()
     else
       @setItems(@getItems())
       @panel.show()
       @focusFilterEditor()
+
+  cancelled: ->
+    if @panel.isVisible()
+      @panel.hide()
