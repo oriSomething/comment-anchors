@@ -98,7 +98,6 @@ class MySelectListView extends SelectListView
     editor = atom.workspace.getActiveTextEditor()
     if @previousPositions.length
       position = @previousPositions.pop()
-      console.log position
       editor.setCursorBufferPosition(position)
       editor.scrollToBufferPosition(position, center: true)
 
@@ -125,4 +124,4 @@ class MySelectListView extends SelectListView
       @panel.hide()
 
 
-#### this is the end of the file
+#### this is the end of the file (anchor used for testing purposes)

@@ -77,3 +77,7 @@ In essence, you will define your anchors by repeating your comment token 4 times
 
 - [ ] Remember previous position (jump forward, jump back)
 - [x] add more grammars and matches
+
+### License
+
+MIT
