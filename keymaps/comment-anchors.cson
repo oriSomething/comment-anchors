@@ -9,7 +9,4 @@
 # https://atom.io/docs/latest/behind-atom-keymaps-in-depth
 'atom-workspace':
   'cmd-shift-a': 'comment-anchors:toggle',
-  'ctrl-shift-a': 'comment-anchors:toggle',
-
-  'cmd-alt-l': 'comment-anchors:return',
-  'ctrl-alt-l': 'comment-anchors:return'
+  'ctrl-shift-a': 'comment-anchors:toggle'

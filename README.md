@@ -43,6 +43,10 @@ Just press `cmd-shift-a` / `ctrl-shift-a` and you can toggle comment-anchors any
   <img src="http://i.imgur.com/IpnIMl9.gif" />
 </p>
 
+### Other features
+
+Comment Anchors also remembers your previous position. So if you jumped to an anchor, just bring up the command palette and call `comment-anchors:return` and you'll jump right back to where you came from. 
+
 ### Supported grammars and comments
 
 In essence, you will define your anchors by repeating your comment token 4 times, examples below:

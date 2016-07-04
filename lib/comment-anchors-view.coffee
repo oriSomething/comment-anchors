@@ -94,6 +94,8 @@ class MySelectListView extends SelectListView
   getPreviousPosition: (editor) ->
     prevPosition = editor.getCursorBufferPosition()
     @previousPositions.push(prevPosition)
+    if @previousPositions.length > 30
+      @previousPositions.shift()
   returnToPreviousPosition: ->
     editor = atom.workspace.getActiveTextEditor()
     if @previousPositions.length
