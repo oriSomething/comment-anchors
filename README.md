@@ -75,8 +75,9 @@ In essence, you will define your anchors by repeating your comment token 4 times
 
 ### Roadmap
 
-- [ ] Remember previous position (jump forward, jump back)
+- [x] Remember previous position (jump forward, jump back)
 - [x] add more grammars and matches
+- [ ] think of more improvements
 
 ### License
 
