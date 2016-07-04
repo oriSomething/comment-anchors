@@ -1,11 +1,14 @@
 CommentAnchorsView = require './comment-anchors-view'
 {CompositeDisposable} = require 'atom'
 
+
+
 module.exports = CommentAnchors =
   commentAnchorsView: null
   modalPanel: null
   subscriptions: null
 
+  #### activate
   activate: (state) ->
     @commentAnchorsView = new CommentAnchorsView(state.commentAnchorsViewState)
 
@@ -15,11 +18,13 @@ module.exports = CommentAnchors =
     # Register command that toggles this view
     @subscriptions.add atom.commands.add 'atom-workspace', 'comment-anchors:toggle': => @commentAnchorsView.toggle()
 
+  #### deactivate
   deactivate: ->
     @modalPanel.destroy()
     @subscriptions.dispose()
     @commentAnchorsView.destroy()
 
+  #### serialize
   serialize: ->
     commentAnchorsViewState: @commentAnchorsView.serialize()
 
