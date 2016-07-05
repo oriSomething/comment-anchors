@@ -12,7 +12,7 @@ What if your file were over 1,000 lines long, and you only wanted to see a speci
 **Comment Anchors** is your answer! Define any anchor you want, and comment-anchors
 will find them and you can easily jump to them from anywhere in your code!
 
-Default behaviour is to match `////` but you can set your anchors as anything you want.
+Default behaviour is to match `////`, `/**** ****/` or `<!---- ---->` but you can set your anchors as anything you want.
 
 ```js
 
@@ -37,7 +37,11 @@ else
 
 ### Other features
 
-Comment Anchors also remembers your previous position. So if you jumped to an anchor, just bring up the command palette and call `comment-anchors:return` and you'll jump right back to where you came from.
+**Jump back**  
+Comment Anchors remembers your previous position. So if you jumped to an anchor, just bring up the command palette and call `comment-anchors:return` and you'll jump right back to where you came from.
+
+**Custom anchors**  
+In settings you can define whatever anchor you like, you can also set it to override any default settings.
 
 ### Demo
 
@@ -67,9 +71,9 @@ In essence, you will define your anchors by repeating your comment token 4 times
   * XML
 * CSS style comments `/* */` are anchored by `/**** title ****/`
   * CSS
-  * SASS
-  * LESS
-  * SCSS
+  * SASS  (or `//// title`)
+  * LESS  (or `//// title`)
+  * SCSS  (or `//// title`)
   * Go
 * other grammars that support multiple comments are anchored by the comment type they support.
   * i.e. PHP is anchored by:
