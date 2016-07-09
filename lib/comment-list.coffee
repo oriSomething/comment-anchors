@@ -3,20 +3,44 @@
 
 matches =
   # //// (title)
-  'forwardSlash':                 /^\s*\/{4}(.+)/
+  'forwardSlash':
+    regex: /^\s*(\/{4} |\/{2} MARK:)(.+)/
+    captureIndex: [2]
+
   # #### (title)
-  'hash':                         /^\s*#{4}(.+)/
+  'hash':
+    regex: /^\s*(#### |\/{2} MARK:)(.+)/
+    captureIndex: [2]
+
   #  <!---- (title) ---->
-  'htmlStyle':                    /^\s*<!-{4}(.+)-{4}>/
+  'htmlStyle':
+    regex: /^\s*<!-{4}(.+)-{4}>|^\s*\/{2} MARK:(.+)/
+    captureIndex: [1, 2]
+
   # /**** (title) ****/
-  'cssStyle':                     /^\s*\/\*{4}(.+)\*{4}\//
-  # //// (title) OR /**** (title) ****/
-  'cssStyleOrForwardSlash':       /^\s*\/\*{4}(.+)\*{4}\/|^\s*\/{4}(.+)/
+  'cssStyle':
+    regex: /^\s*\/\*{4}(.+)\*{4}\/|^\s*\/{2} MARK:(.+)/
+    captureIndex: [1, 2]
+
+  # /**** (title) ****/ OR //// (title)
+  'cssStyleOrForwardSlash':
+    regex: /^\s*\/\*{4}(.+)\*{4}\/|^\s*(\/{4} |\/{2} MARK:)(.+)/
+    captureIndex: [1, 3]
+
   # //// (title) OR /**** (title) ****/ OR ####
-  'cssStyleOrForwardSlashOrHash': /^\s*\/\*{4}(.+)\*{4}\/|^\s*\/{4}(.+)|^\s*#{4}(.+)/
+  'cssStyleOrForwardSlashOrHash':
+    regex: /^\s*\/\*{4}(.+)\*{4}\/|^\s*(#### |\/{4} |\/{2} MARK:)(.+)/
+    captureIndex: [1, 3]
+
+  # default Xcode style // MARK: (title)
+  'defaults':
+    regex: /^\s*\/{2} MARK:(.+)/
+    captureIndex: [1]
 
 module.exports =
 list:
+  'defaults':                matches['defaults']
+
   'javascript':              matches['forwardSlash']
   'javascript':              matches['forwardSlash']
   'javascript (rails)':      matches['forwardSlash']

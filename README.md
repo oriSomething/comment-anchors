@@ -3,6 +3,8 @@
 _Anchor your comments! A package to easily navigate your code in Atom._  
 _Jump to and from different comments within your code without scrolling._
 
+> If you've ever used Xcode, comment anchors are exactly the same as its `// MARK: anchor-name`.
+
 ### What does it do?
 
 Ever wondered how much time you actually waste by scrolling manually through
@@ -12,30 +14,40 @@ What if your file were over 1,000 lines long, and you only wanted to see a speci
 **Comment Anchors** is your answer! Define any anchor you want, and comment-anchors
 will find them and you can easily jump to them from anywhere in your code!
 
-Default behaviour is to match `////`, `/**** ****/` or `<!---- ---->` but you can set your anchors as anything you want.
+Default behaviour is to matches all lines with `// MARK: `.  
+The comment anchors package additionally adds symbol anchors as well.  
+
+This means that anchors will be a longer variation of your comment style, for example:
+- `//` anchored by `////`
+- `/* */` anchored by `/**** ****/`
+- `<!-- -->` anchored by `<!---- ---->`.  
+
+You can also configure this package to recognise any anchor you want!
 
 ```js
 
-"an extremely long source file"
-...
-...
+"an extremely long javascript source file"
+// MARK: variable declarations              <--- this is an anchor
+var a, b, c;
+var foo, bar, baz;
 
-//// VeryImportantFunction Declaration        <--- this is an anchor
+//// Utility functions Declaration          <--- this too!
 let VeryImportantFunction = function() {...};
+let createElement = function() {...};
+let destroyElement = function() {...};
+let getElement = function() {...};
 
-...
-... // many many lines of code...
-...
-
-//// AnotherImportantPlaceInMyCode            <--- this too!
-if (someCondition)
+// @ANCHOR AnotherImportantPlaceInMyCode     <--- Set anchors to whatever you want!
+if (someCondition) {
   VeryImportantFunction(false);
-else
+}
+else {
   VeryImportantFunction(true);
+}
 
 ```
 
-### Other features
+### Settings and features
 
 **Jump back**  
 Comment Anchors remembers your previous position. So if you jumped to an anchor, just bring up the command palette and call `comment-anchors:return` and you'll jump right back to where you came from.
@@ -55,6 +67,7 @@ Just press `cmd-shift-a` / `ctrl-shift-a` and you can toggle comment-anchors any
 
 In essence, you will define your anchors by repeating your comment token 4 times, examples below:
 
+* All grammars will anchor `// MARK: `
 * Forward slash style comments `//` are anchored by `//// title`
   * JavaScript, js (rails), js (babel)
   * Obj-C, Obj-C++

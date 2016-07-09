@@ -2,14 +2,17 @@
   "name": "comment-anchors",
   "main": "./lib/comment-anchors",
   "version": "0.4.2",
-  "description": "Anchor your comments! A package to easily navigate your code in Atom.",
+  "description": "Anchor your comments! A package to easily navigate your code in Atom (like Xcode section titles).",
   "keywords": [
     "atom",
     "comments",
     "jump",
     "navigate",
     "anchor",
-    "long code"
+    "long code",
+    "Xcode",
+    "mark",
+    "markers"
   ],
   "activationCommands": {
     "atom-workspace": "comment-anchors:toggle"
@@ -20,6 +23,8 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
-    "atom-space-pen-views": ">2.0.0"
+    "atom-space-pen-views": ">2.0.0",
+    "fs-plus": "*",
+    "temp": "*"
   }
 }

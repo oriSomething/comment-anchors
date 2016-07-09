@@ -21,7 +21,8 @@ class MySelectListView extends SelectListView
     @panel.hide()
 
   getEmptyMessage: ->
-    "No anchors found in file --> searching for #{@getRegex().toString().slice(1, -1)}"
+    # "No anchors found in file --> searching for #{@getRegex().toString().slice(1, -1)}"
+    "No anchors found in file!"
 
   getFilterKey: ->
     'text'
@@ -53,10 +54,12 @@ class MySelectListView extends SelectListView
     override = atom.config.get('comment-anchors.alwaysUseSpecifiedRegExp')
     # if user has set a custom RegExp, or no RegExp found in our list
     if override or not CommentRegExpList.list[grammar]
-      custom = atom.config.get('comment-anchors.customAnchorMatch')
+      customRegex = atom.config.get('comment-anchors.customAnchorRegExp')
+      customIndex = atom.config.get('comment-anchors.customAnchorRegExpIndex')
       # get user's custom RegExp
       try
-        regex = new RegExp(custom)
+        regex = new RegExp(customRegex)
+        captureIndex = customIndex
       # if custom regex is invalid
       catch error
         if error instanceof SyntaxError
@@ -64,12 +67,15 @@ class MySelectListView extends SelectListView
           console.error(error)
         else
           console.error(error)
-        # default to JavaScript if error
-        regex = CommentRegExpList.list.javascript
     else
-      regex = CommentRegExpList.list[grammar]
+      regex        = CommentRegExpList.list[grammar].regex
+      captureIndex = CommentRegExpList.list[grammar].captureIndex
 
-    return regex
+    # if not set default to Xcode `// MARK: ` style if error
+    regex        = regex ? CommentRegExpList.list.defaults.regex
+    captureIndex = captureIndex ? CommentRegExpList.list.defaults.captureIndex
+
+    return { regex: regex , captureIndex: captureIndex }
 
   # scans lines of active text editor for anchored comments
   getItems: ->
@@ -78,15 +84,24 @@ class MySelectListView extends SelectListView
     lines = editor.getLineCount()
     anchors = []
 
-    regex = @getRegex(grammar)
+    # get current anchor setting
+    setting = @getRegex(grammar)
 
-    while lines -= 1
+    # get each line of text editor
+    while (lines -= 1) > -1
       line = editor.lineTextForBufferRow(lines)
-      anchor = regex.exec(line)
+      # search each line for anchor
+      anchor = setting.regex.exec(line)
       if anchor
+        # get match (loop through capture groups)
+        text = ''
+        for i in setting.captureIndex
+          if anchor[i]
+            text = anchor[i]
+        # add anchor to array
         anchors.unshift
           line: lines + 1
-          text: anchor[1]
+          text: text
 
     return anchors
 

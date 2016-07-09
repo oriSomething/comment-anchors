@@ -38,13 +38,26 @@ module.exports = CommentAnchors =
       type: 'boolean'
       default: false
 
-    customAnchorMatch:
+    customAnchorRegExp:
       title: 'Custom RegExp to Match anchors'
       description:
-        'If Comment Anchors doesn\'t recognise the current grammar, it will default to this RegExp (i.e. ////).
-        <br/>If you include a capture group it will be the title of the anchor.
-        <br/>**"^\\s*"** matches the start of a line.
-        <br/>**"\\/{4}"** matches "/" 4 times.
-        <br/>**"(.+)"** captures any text until the end of the line (the anchor title).'
+        'If Comment Anchors doesn\'t recognise the current grammar, it will default to this RegExp (i.e. // MARK: (title)).
+        <br/>_If you include a capture group it will be the title of the anchor_.
+        <br/>**"^\\s*"** matches the start of a line (with or without whitespace).
+        <br/>**"\\/{2} MARK:"** matches "// MARK:".
+        <br/>**"(.+)"** captures any text until the end of the line (the anchor title).
+        <br/>
+        <br/>**So the default RegExp will match (same as Xcode):**
+        <br/>// MARK: anchorname'
       type: 'string'
-      default: CommentRegExpList.list.javascript.toString().slice(1, -1)
+      default: CommentRegExpList.list.defaults.regex.toString().slice(1, -1)
+
+    customAnchorRegExpIndex:
+      title: 'Capture group index'
+      description:
+        'If you have specified a custom RegExp, enter the index of the matching capture group.
+        <br/>For example:
+        <br/>  The capture index to match "**(.+)**" for the RegExp "**/(####|@ANCHOR) (.+)/**" is 2.
+        <br/>  This is because RegExp.exec(str) returns [match, group1, group2, ...]'
+      type: 'array'
+      default: CommentRegExpList.list.defaults.captureIndex
