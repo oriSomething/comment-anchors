@@ -14,7 +14,7 @@ What if your file were over 1,000 lines long, and you only wanted to see a speci
 **Comment Anchors** is your answer! Define any anchor you want, and comment-anchors
 will find them and you can easily jump to them from anywhere in your code!
 
-Default behaviour is to matches all lines with `// MARK: `.  
+Default behaviour is to match all lines with `// MARK: `.  
 The comment anchors package additionally adds symbol anchors as well.  
 
 This means that anchors will be a longer variation of your comment style, for example:
