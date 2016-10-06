@@ -1,44 +1,43 @@
 
 # all lowercase
+regexps =
+  'mark':         '^\\s*(\\/{2} MARK: )(.+)'
+  'forwardSlash': '^\\s*(\\/{4} )(.+)'
+  'hash':         '^\\s*(#### )(.+)'
+  'htmlStyle':    '^\\s*(<!-{4})(.+)-{4}>'
+  'cssStyle':     '^\\s*(\\/\\*{4})(.+) \\*{4}\\/'
 
 matches =
   # //// (title)
   'forwardSlash':
-    regex: /^\s*(\/{4} |\/{2} MARK:)(.+)/
-    captureIndex: [2]
-
+    regexs: [new RegExp(regexps.forwardSlash)]
   # #### (title)
   'hash':
-    regex: /^\s*(#### |\/{2} MARK:)(.+)/
-    captureIndex: [2]
-
+    regexs: [new RegExp(regexps.hash)]
   #  <!---- (title) ---->
   'htmlStyle':
-    regex: /^\s*<!-{4}(.+)-{4}>|^\s*\/{2} MARK:(.+)/
-    captureIndex: [1, 2]
-
+    regexs: [new RegExp(regexps.htmlStyle)]
   # /**** (title) ****/
   'cssStyle':
-    regex: /^\s*\/\*{4}(.+)\*{4}\/|^\s*\/{2} MARK:(.+)/
-    captureIndex: [1, 2]
-
+    regexs: [new RegExp(regexps.cssStyle)]
   # /**** (title) ****/ OR //// (title)
   'cssStyleOrForwardSlash':
-    regex: /^\s*\/\*{4}(.+)\*{4}\/|^\s*(\/{4} |\/{2} MARK:)(.+)/
-    captureIndex: [1, 3]
-
+    regexs: [
+      new RegExp(regexps.cssStyle),
+      new RegExp(regexps.forwardSlash)
+    ]
   # //// (title) OR /**** (title) ****/ OR ####
   'cssStyleOrForwardSlashOrHash':
-    regex: /^\s*\/\*{4}(.+)\*{4}\/|^\s*(#### |\/{4} |\/{2} MARK:)(.+)/
-    captureIndex: [1, 3]
-
+    regexs: [
+      new RegExp(regexps.forwardSlash),
+      new RegExp(regexps.cssStyle),
+      new RegExp(regexps.hash)
+    ]
   # default Xcode style // MARK: (title)
   'defaults':
-    regex: /^\s*\/{2} MARK:(.+)/
-    captureIndex: [1]
+    regexs: [new RegExp(regexps.mark)]
 
-module.exports =
-list:
+list =
   'defaults':                matches['defaults']
 
   'javascript':              matches['forwardSlash']
@@ -81,3 +80,30 @@ list:
   'scss':                    matches['cssStyleOrForwardSlash']
   'go':                      matches['cssStyleOrForwardSlash']
   'go template':             matches['cssStyleOrForwardSlash']
+
+module.exports =
+list: list
+  # get anchor regex
+getRegex: (grammar) ->
+  # check if user has specified a RegExp to use
+  override = atom.config.get('comment-anchors.alwaysUseSpecifiedRegExp')
+  # if user has set a custom RegExp, or no RegExp found in our list
+  if override or not list[grammar]
+    customRegex = atom.config.get('comment-anchors.customAnchorRegExp')
+    # get user's custom RegExp
+    try
+      result = [new RegExp(customRegex)]
+    # if custom regex is invalid
+    catch error
+      if error instanceof SyntaxError
+        console.error('[COMMENT-ANCHORS]:: Check your custom regex!')
+        console.error(error)
+      else
+        console.error(error)
+  else
+    result = list[grammar]
+
+  # if not set default to Xcode `// MARK: ` style if error
+  result ?= list.defaults
+
+  result
