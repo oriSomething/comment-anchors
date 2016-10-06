@@ -1,12 +1,6 @@
 {SelectListView} = require 'atom-space-pen-views'
 {Point} = require 'atom'
 
-#### TODO
-# goes to one line after selected...
-# add more languages...
-# add better error handling...
-# add config for custom anchors
-
 CommentRegExpList = require './comment-list.coffee'
 
 module.exports =
@@ -40,6 +34,9 @@ class MySelectListView extends SelectListView
     @panel.hide();
 
     editor = atom.workspace.getActiveTextEditor()
+    if not editor
+      return
+
     @getPreviousPosition(editor)
     position = new Point(anchor.line, 1)
 
@@ -51,30 +48,23 @@ class MySelectListView extends SelectListView
   # scans lines of active text editor for anchored comments
   getItems: ->
     editor = atom.workspace.getActiveTextEditor()
-    grammar = editor.getGrammar().name.toLowerCase()
-    lines = editor.getLineCount()
+    if not editor
+      return []
+
+    line = editor.getLineCount()
     anchors = []
-
     # get current anchor setting
-    setting = CommentRegExpList.getRegex(grammar)
-
+    criteria = CommentRegExpList.getRegex(editor.getGrammar().name.toLowerCase())
     # get each line of text editor
-    while (lines -= 1) > -1
-      line = editor.lineTextForBufferRow(lines)
-      # search each line for anchor
-      # anchor = setting.regex.exec(line)
-      # if anchor
-      #   # get match (loop through capture groups)
-      #   text = ''
-      #   for i in setting.captureIndex
-      #     if anchor[i]
-      #       text = anchor[i]
-      #   # add anchor to array
-      #   anchors.unshift
-      #     line: lines + 1
-      #     text: text
-
-    return anchors
+    while (line -= 1) > -1
+      text = editor.lineTextForBufferRow(line)
+      result = null
+      criteria.some (test) -> result = text.match(test)
+      if result
+        anchors.unshift
+          line: line + 1
+          text: result[2]
+    anchors
 
   # used to find old line information in order to jump back to spot
   getPreviousPosition: (editor) ->

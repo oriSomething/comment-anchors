@@ -30,6 +30,5 @@ describe "CommentAnchorsView", ->
 
   describe "Always match '// MARK: ' anchors", ->
     it 'should match with forwardSlash style', ->
-      dump = JSON.stringify(view.getItems())
-      console.log(dump)
+      console.log(JSON.stringify(view.getItems()))
       expect(1).toBe(1)

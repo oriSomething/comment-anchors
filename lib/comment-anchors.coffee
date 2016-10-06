@@ -17,26 +17,57 @@ module.exports = CommentAnchors =
 
     # Register command that toggles this view
     @subscriptions.add atom.commands.add 'atom-workspace', 'comment-anchors:toggle': => @commentAnchorsView.toggle()
+    # Register command that toggles this view
+    @subscriptions.add atom.commands.add 'atom-workspace', 'comment-anchors:highlight': => @highlight()
     # Register command that returns to previous position
     @subscriptions.add atom.commands.add 'atom-workspace', 'comment-anchors:return': => @commentAnchorsView.returnToPreviousPosition()
 
-    # editor.onDidStopChanges
-    atom.workspace.onDidOpen (event) ->
-      if atom.workspace.isTextEditor(event.item)
-        editor = event.item
-        criteria = CommentRegExpList.getRegex(editor.getGrammar().name.toLowerCase())
-        editor.onDidStopChanging ->
-          line = editor.getLineCount()
-          while (line -= 1) > -1
-            text = editor.lineTextForBufferRow(line)
-            result = null
-            criteria.some (test) -> result = text.match(test)
-            if result
-              # mark text
-              start = result.index + result[1].length
-              end = start + result[2].length
-              marker = editor.markBufferRange([[line, start], [line, end]]);
-              decoration = editor.decorateMarker(marker, { type: 'highlight', class: 'comment-anchor' })
+    @markers = []
+
+  unhighlight: ->
+    @markers.forEach (marker) -> marker.destroy()
+    @markers = []
+
+  highlight: ->
+    editor = atom.workspace.getActiveTextEditor()
+    if not editor
+      return
+
+    # editor.onDidChange =>
+      # @unhighlight()
+    # Get matching criteria
+    criteria = CommentRegExpList.getRegex(editor.getGrammar().name.toLowerCase())
+
+    # Go through each line and test for anchors
+    line = editor.getLineCount()
+    while (line -= 1) > -1
+      text = editor.lineTextForBufferRow(line)
+      result = null
+      criteria.some (test) -> result = text.match(test)
+      if result
+        # mark text
+        start = result.index + result[1].length
+        end = start + result[2].length
+        range = [[line, start], [line, end]]
+        marker = editor.markBufferRange(range, { invalidate: 'touch' });
+        # Update the marker on change
+        marker.onDidChange (e) =>
+          marker.destroy()
+          if e.newHeadBufferPosition.row != e.newTailBufferPosition.row
+            return
+          newLine = e.newHeadBufferPosition.row
+          text = editor.lineTextForBufferRow(newLine)
+          result = null
+          criteria.some (test) -> result = text.match(test)
+          if result
+            start = result.index + result[1].length
+            end = start + result[2].length
+            range = [[newLine, start], [newLine, end]]
+            m = editor.markBufferRange(range, { invalidate: 'touch' });
+            decoration = editor.decorateMarker(m, { type: 'highlight', class: 'comment-anchor' })
+            @markers.push m
+        decoration = editor.decorateMarker(marker, { type: 'highlight', class: 'comment-anchor' })
+        @markers.push marker
 
   #### deactivate
   deactivate: ->
@@ -50,8 +81,21 @@ module.exports = CommentAnchors =
 
   #### package configuration
   config:
+    allAnchors:
+      title: 'Search for every type of anchor'
+      description: '
+        The package will highlight every match for any of the following:
+        <br> `// MARK: <name>`
+        <br> `//// <name>`
+        <br> `#### <name>`
+        <br> `/**** <name> ****/`
+        <br> `<!---- <name> ---->`
+        <br> (Plus custom anchor defined below)'
+      type: 'boolean'
+      default: false
+
     alwaysUseSpecifiedRegExp:
-      title: 'Always use custom RegExp match for Anchors'
+      title: 'Only use custom RegExp match for Anchors'
       description: 'Set this to true to only match the Custom RegExp specified below, no matter the current grammar setting.'
       type: 'boolean'
       default: false
@@ -68,4 +112,4 @@ module.exports = CommentAnchors =
         <br/>**So the default RegExp will match (same as Xcode):**
         <br/>// MARK: anchorname'
       type: 'string'
-      default: CommentRegExpList.list.defaults.regexs[0].toString().slice(1, -1)
+      default: CommentRegExpList.list.defaults[0].toString().slice(1, -1)
