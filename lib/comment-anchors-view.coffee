@@ -79,7 +79,7 @@ class MySelectListView extends SelectListView
 
   # scans lines of active text editor for anchored comments
   getItems: ->
-    editor = atom.workspace.getActiveTextEditor()
+    return unless editor = atom.workspace.getActiveTextEditor()
     grammar = editor.getGrammar().name.toLowerCase()
     lines = editor.getLineCount()
     anchors = []
