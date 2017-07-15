@@ -1,7 +1,7 @@
 {
   "name": "comment-anchors",
   "main": "./lib/comment-anchors",
-  "version": "0.4.7",
+  "version": "0.5.0",
   "description": "Anchor your comments! A package to easily navigate your code in Atom (like Xcode section titles).",
   "keywords": [
     "atom",
@@ -14,11 +14,14 @@
     "mark",
     "markers"
   ],
-  "activationCommands": [{
-    "atom-workspace": "comment-anchors:goToNextMark"
-  }, {
-    "atom-workspace": "comment-anchors:toggle"
-  }],
+  "activationCommands": [
+    {
+      "atom-workspace": "comment-anchors:goToNextMark"
+    },
+    {
+      "atom-workspace": "comment-anchors:toggle"
+    }
+  ],
   "repository": "https://github.com/callodacity/comment-anchors",
   "license": "MIT",
   "engines": {
