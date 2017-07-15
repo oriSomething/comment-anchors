@@ -14,9 +14,11 @@
     "mark",
     "markers"
   ],
-  "activationCommands": {
+  "activationCommands": [{
+    "atom-workspace": "comment-anchors:goToNextMark"
+  }, {
     "atom-workspace": "comment-anchors:toggle"
-  },
+  }],
   "repository": "https://github.com/callodacity/comment-anchors",
   "license": "MIT",
   "engines": {
