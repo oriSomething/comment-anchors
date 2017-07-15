@@ -140,5 +140,25 @@ class MySelectListView extends SelectListView
     if @panel.isVisible()
       @panel.hide()
 
+  # Go to next mark location
+  goToNextMark: ->
+    editor = atom.workspace.getActiveTextEditor()
+    return unless editor
+
+    row = editor.getCursorScreenPositions()[0].row
+    anchors = @getItems()
+
+    return if anchors.length == 0 
+    
+    # Check for next anchor and go to
+    for anchor in anchors
+      if anchor.line > row
+        position = new Point(anchor.line, 1)
+        editor.setCursorBufferPosition(position)
+        return
+
+    # If no forward anchor exist we go to the first anchor
+    position = new Point(anchors[0].line, 1)
+    editor.setCursorBufferPosition(position)
 
 #### this is the end of the file (anchor used for testing purposes)
