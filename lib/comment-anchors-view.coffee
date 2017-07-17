@@ -1,11 +1,7 @@
 {SelectListView} = require 'atom-space-pen-views'
 {Point} = require 'atom'
 
-#### TODO
-# goes to one line after selected...
-# add more languages...
-# add better error handling...
-# add config for custom anchors
+#### Comment Anchors
 
 CommentRegExpList = require './comment-list.coffee'
 
@@ -101,9 +97,17 @@ class MySelectListView extends SelectListView
         # add anchor to array
         anchors.unshift
           line: lines + 1
-          text: text
+          text: @escape(text)
 
     return anchors
+  
+  escape: (unsafe) ->
+    unsafe
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;')
 
   # used to find old line information in order to jump back to spot
   getPreviousPosition: (editor) ->
