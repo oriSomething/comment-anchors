@@ -1,5 +1,6 @@
-module.exports = """
-// MARK: XcodeStyle noWhitespace
+"use strict";
+
+module.exports = `// MARK: XcodeStyle noWhitespace
 
 //// forwardSlash style noWhitespace
 
@@ -17,5 +18,4 @@ module.exports = """
 
   /**** cssStyle ****/
 
-  <!---- htmlStyle ---->
-"""
+  <!---- htmlStyle ---->`;

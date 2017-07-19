@@ -1,35 +1,47 @@
-CommentAnchorsView = require '../lib/comment-anchors-view'
-sampleAnchors = require './tests'
+/* global runs */
+"use strict";
 
-path = require 'path'
-fs = require 'fs-plus'
-temp = require 'temp'
+const CommentAnchorsView = require("../lib/comment-anchors-view");
+const sampleAnchors = require("./tests");
 
+const path = require("path");
+const fs = require("fs-plus");
+const temp = require("temp");
 
-describe "CommentAnchorsView", ->
-  [editor, view, workspaceElement] = []
+//// Tests
 
-  beforeEach ->
-    # create temp files
-    directory = temp.mkdirSync()
-    atom.project.setPaths([directory])
-    workspaceElement = atom.views.getView(atom.workspace)
-    filePath = path.join(directory, 'comment-anchors.txt')
-    fs.writeFileSync(filePath, 'asd')
-    fs.writeFileSync(path.join(directory, 'sample-anchors.txt'), sampleAnchors)
+describe("CommentAnchorsView", function() {
+  let view;
 
-    # open a temp workspace
-    waitsForPromise ->
-      atom.workspace.open(filePath).then (o) -> editor = o
-    #
-    runs ->
-      view = new CommentAnchorsView()
-    #
-    # waitsForPromise ->
-    #   atom.packages.activatePackage('whitespace')
+  beforeEach(function() {
+    // create temp files
+    const directory = temp.mkdirSync();
+    atom.project.setPaths([directory]);
+    const filePath = path.join(directory, "comment-anchors.txt");
+    fs.writeFileSync(filePath, "asd");
+    fs.writeFileSync(path.join(directory, "sample-anchors.txt"), sampleAnchors);
 
-  describe "Always match '// MARK: ' anchors", ->
-    it 'should match with forwardSlash style', ->
-      dump = JSON.stringify(view.getItems())
-      console.log(dump)
-      expect(1).toBe(1)
+    // open a temp workspace
+    waitsForPromise(() => atom.workspace.open(filePath).then(noop));
+
+    //
+    return runs(() => {
+      view = new CommentAnchorsView();
+    });
+
+    //
+    // waitsForPromise(() => atom.packages.activatePackage('whitespace'))
+  });
+
+  describe("Always match '// MARK: ' anchors", function() {
+    it("should match with forwardSlash style", function() {
+      const dump = JSON.stringify(view.getItems());
+      console.log(dump); // eslint-disable-line
+      expect(1).toBe(1);
+    });
+  });
+});
+
+//// Helpers
+
+function noop() {}
