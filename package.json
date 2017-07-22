@@ -14,6 +14,9 @@
     "mark",
     "markers"
   ],
+  "scripts": {
+    "prettier": "prettier --print-width 120 --write \"{{lib,spec}/**/,./}*.js\""
+  },
   "activationCommands": [
     {
       "atom-workspace": "comment-anchors:goToNextMark"
@@ -31,5 +34,8 @@
     "atom-space-pen-views": ">2.0.0",
     "fs-plus": "*",
     "temp": "*"
+  },
+  "devDependencies": {
+    "prettier": "^1.5.3"
   }
 }
