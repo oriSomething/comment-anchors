@@ -15,6 +15,7 @@
     "markers"
   ],
   "scripts": {
+    "lint": "eslint \"{lib,spec}/**/*.js\"",
     "prettier": "prettier --print-width 120 --write \"{{lib,spec}/**/,./}*.js\""
   },
   "activationCommands": [
@@ -36,6 +37,7 @@
     "temp": "*"
   },
   "devDependencies": {
+    "eslint": "^4.3.0",
     "prettier": "^1.5.3"
   }
 }
