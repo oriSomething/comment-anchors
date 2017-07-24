@@ -1,7 +1,7 @@
 {
   "name": "comment-anchors",
   "main": "./lib/comment-anchors",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "Anchor your comments! A package to easily navigate your code in Atom (like Xcode section titles).",
   "keywords": [
     "atom",
