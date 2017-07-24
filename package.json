@@ -14,6 +14,10 @@
     "mark",
     "markers"
   ],
+  "scripts": {
+    "lint": "eslint \"{lib,spec}/**/*.js\"",
+    "prettier": "prettier --print-width 120 --write \"{{lib,spec}/**/,./}*.js\""
+  },
   "activationCommands": [
     {
       "atom-workspace": "comment-anchors:goToNextMark"
@@ -31,5 +35,9 @@
     "atom-space-pen-views": ">2.0.0",
     "fs-plus": "*",
     "temp": "*"
+  },
+  "devDependencies": {
+    "eslint": "^4.3.0",
+    "prettier": "^1.5.3"
   }
 }
